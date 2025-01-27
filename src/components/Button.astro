@@ -1,0 +1,24 @@
+---
+import type { HTMLAttributes } from "astro/types";
+// use a `type`
+type Props = HTMLAttributes<"button"> & {
+  size?: "lg" | "default";
+  variant?: "solid" | "outline";
+};
+
+const { size = "default", variant = "solid", ...props } = Astro.props;
+---
+
+<button
+  class:list={[
+    "rounded-full flex items-center flex-row gap-1.5",
+    size === "lg" && "h-[44px] px-6 text-[16px] font-normal",
+    size === "default" && "h-[34px] px-4 text-[13px] font-medium",
+    variant === "solid" && "bg-foreground text-card border-0",
+    variant === "outline" &&
+      "bg-transparent border-border border-2 text-foreground",
+  ]}
+  {...props}
+>
+  <slot />
+</button>

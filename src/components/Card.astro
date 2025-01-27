@@ -1,0 +1,59 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import Chip from "./Chip.astro";
+
+type Props = HTMLAttributes<"div"> & {
+  type?: "project" | "job";
+  title: string;
+  subtitle?: string;
+};
+
+const { type, title, subtitle, class: className, ...props } = Astro.props;
+
+let typeText: string | undefined = undefined;
+
+switch (type) {
+  case "project":
+    typeText = "Project";
+    break;
+  case "job":
+    typeText = "Job";
+    break;
+  default:
+    typeText = undefined;
+}
+---
+
+<div
+  class:list={[
+    "p-4 rounded-lg bg-card border border-[#c7e2ff] shadow-md shadow-black gap-3 flex flex-col",
+    className,
+  ]}
+  style={{
+    backgroundImage:
+      "linear-gradient(to bottom, hsla(211, 100%, 14%, 0.03) 0px, hsla(211, 100%, 14%, 0) 48px)",
+    "box-shadow":
+      "inset 0 0 0 6px #FFF, 0 4px 16px -4px hsla(211, 100%, 14%, 0.12)",
+  }}
+  {...props}
+>
+  <div class="flex flex-col gap-1 items-start">
+    {typeText && <Chip>{typeText}</Chip>}
+    <h3 class="font-mono text-lg tracking-tight font-bold">{title}</h3>
+    {subtitle && <p class="text-muted text-sm font-light">{subtitle}</p>}
+  </div>
+  {
+    Astro.slots.has("tags") && (
+      <div class="gap-1 flex flex-wrap flex-row">
+        <slot name="tags" />
+      </div>
+    )
+  }
+  {
+    Astro.slots.has("footer") && (
+      <div class="flex flex-1 items-end flex-row gap-2.5 justify-end align-end">
+        <slot name="footer" />
+      </div>
+    )
+  }
+</div>

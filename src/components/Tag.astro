@@ -1,0 +1,40 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"div"> & {
+  language?: undefined | "go" | "typescript" | "c++" | "swift";
+};
+
+const { language, ...props } = Astro.props;
+
+let dotColor: string | undefined;
+
+switch (language) {
+  case "go":
+    dotColor = "#00ADD8";
+    break;
+  case "typescript":
+    dotColor = "#3178C6";
+    break;
+  case "swift":
+    dotColor = "#F05138";
+    break;
+  case "c++":
+    dotColor = "#F34B7D";
+    break;
+  default:
+    dotColor = undefined;
+}
+---
+
+<div
+  class="border border-border items-center rounded-full gap-1 px-2 py-[3px] flex text-muted text-[12px] font-medium"
+  {...props}
+>
+  {
+    dotColor && (
+      <div class="rounded-full size-2" style={{ backgroundColor: dotColor }} />
+    )
+  }
+  <slot />
+</div>

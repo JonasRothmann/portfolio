@@ -1,0 +1,14 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"div"> & {};
+
+const { ...props } = Astro.props;
+---
+
+<div
+  class="border-0 gap-1 px-2 items-center h-[22px] rounded-full text-chip-text bg-chip flex text-[11px] font-medium"
+  {...props}
+>
+  <slot />
+</div>
